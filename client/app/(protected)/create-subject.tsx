@@ -32,39 +32,29 @@ export default function CreateSubject() {
   });
 
   const onSubmit = async (data: CreateSubjectSchemaType) => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      // 1. Create or get Materia
-      const materiaResponse = await createMateria(data.nombre);
-      const materiaId = materiaResponse.data.id;
+    // 1. Create or get Materia
+    const materiaResponse = await createMateria(data.nombre);
+    const materiaId = materiaResponse.data.id;
 
-      // 2. Create or get Seccion
-      const seccionResponse = await createSeccion(data.seccion, data.semestre);
-      const seccionId = seccionResponse.data.id;
+    // 2. Create or get Seccion
+    const seccionResponse = await createSeccion(data.seccion, data.semestre);
+    const seccionId = seccionResponse.data.id;
 
-      // 3. Create Clase (relationship)
-      const claseResponse = await createClase(materiaId, seccionId);
-      const claseId = claseResponse.data.id;
+    // 3. Create Clase (relationship)
+    const claseResponse = await createClase(materiaId, seccionId);
+    const claseId = claseResponse.data.id;
 
-      // Navigate to add students screen
-      router.push({
-        pathname: "/add-students",
-        params: {
-          claseId: claseId.toString(),
-          materia: data.nombre,
-          seccion: data.seccion,
-        },
-      });
-    } catch (error: any) {
-      console.error("Error al crear materia:", error);
-      Alert.alert(
-        "Error",
-        error.response?.data?.message || "Error al crear la materia"
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    // Navigate to add students screen
+    router.push({
+      pathname: "/add-students",
+      params: {
+        claseId: claseId.toString(),
+        materia: data.nombre,
+        seccion: data.seccion,
+      },
+    });
   };
 
   return (
@@ -96,14 +86,14 @@ export default function CreateSubject() {
             name="semestre"
             control={control}
             label="Semestre"
-            placeholder="Ej: 2024-2"
+            placeholder="Ej: 6to Semestre"
           />
 
           <InputField
             name="seccion"
             control={control}
             label="Sección"
-            placeholder="Ej: Grupo 101-A"
+            placeholder="Ej: 076-2630-D1"
           />
 
           <View className="mt-10">

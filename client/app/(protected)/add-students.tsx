@@ -69,24 +69,27 @@ export default function AddStudents() {
       Alert.alert("✅ Éxito", "Estudiante agregado correctamente");
     } catch (error: any) {
       console.error("Error al agregar estudiante:", error);
-      
+
       // Check if it's a duplicate cedula error
       const errorMessage = error.response?.data?.message || "";
-      
-      if (errorMessage.includes("unique constraint") || 
-          errorMessage.includes("cedula") || 
-          errorMessage.includes("duplicate") ||
-          errorMessage.includes("ya existe")) {
+
+      if (
+        errorMessage.includes("unique constraint") ||
+        errorMessage.includes("cedula") ||
+        errorMessage.includes("duplicate") ||
+        errorMessage.includes("ya existe")
+      ) {
         Alert.alert(
           "⚠️ Estudiante Duplicado",
           `Ya existe un estudiante con la cédula "${data.cedula}".\n\nPor favor verifica los datos e intenta con un ID diferente.`,
-          [{ text: "Entendido", style: "default" }]
+          [{ text: "Entendido", style: "default" }],
         );
       } else {
         Alert.alert(
           "❌ Error",
-          errorMessage || "Error al agregar el estudiante. Por favor intenta nuevamente.",
-          [{ text: "Cerrar", style: "cancel" }]
+          errorMessage ||
+            "Error al agregar el estudiante. Por favor intenta nuevamente.",
+          [{ text: "Cerrar", style: "cancel" }],
         );
       }
     } finally {
@@ -109,7 +112,7 @@ export default function AddStudents() {
             setStudents((prev) => prev.filter((s) => s.id !== id));
           },
         },
-      ]
+      ],
     );
   };
 
@@ -128,13 +131,13 @@ export default function AddStudents() {
 
       const result = await bulkEnrollStudents(
         studentIds,
-        parseInt(claseId || "0")
+        parseInt(claseId || "0"),
       );
 
       if (result.failed > 0) {
         Alert.alert(
           "Advertencia",
-          `${result.success} estudiantes inscritos. ${result.failed} fallaron.`
+          `${result.success} estudiantes inscritos. ${result.failed} fallaron.`,
         );
       }
 
@@ -151,7 +154,7 @@ export default function AddStudents() {
       console.error("Error al guardar matrícula:", error);
       Alert.alert(
         "Error",
-        error.response?.data?.message || "Error al guardar la matrícula"
+        error.response?.data?.message || "Error al guardar la matrícula",
       );
     } finally {
       setIsEnrolling(false);
@@ -242,14 +245,14 @@ export default function AddStudents() {
             name="nombres"
             control={control}
             label="Nombre del Estudiante"
-            placeholder="Ej: Ana Martínez"
+            placeholder="Ej: Ana María"
           />
 
           <InputField
             name="cedula"
             control={control}
             label="ID / Número de Matrícula"
-            placeholder="Ej: 2021-0456"
+            placeholder="Ej: 28.230.615"
           />
 
           <InputField

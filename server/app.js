@@ -1,6 +1,6 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 import routes from "./routes/index.js";
 dotenv.config();
 
@@ -12,9 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 3000;
 
-
-app.get('/', (req, res) => {
-  res.send('¡Hola Mundo con Express!');
+app.get("/", (req, res) => {
+  res.send("¡Hola Mundo con Express!");
 });
 
 app.use("/api/v1", routes);
