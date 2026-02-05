@@ -21,9 +21,16 @@ export function formatDate(date: string | Date): string {
 
 /**
  * Formatea una fecha al formato "YYYY-MM-DD" para uso en APIs/URLs
+ * - Si es un string (fecha del servidor), se parsea como UTC para preservar el día original
+ * - Si es un objeto Date (fecha local), se usa la hora local
  * @param date - Fecha en formato string o Date
  * @returns Fecha en formato YYYY-MM-DD
  */
 export function formatDateForApi(date: string | Date): string {
-  return dayjs.utc(date).format("YYYY-MM-DD");
+  // Si es string (viene del servidor en UTC), usar UTC para preservar el día
+  if (typeof date === "string") {
+    return dayjs.utc(date).format("YYYY-MM-DD");
+  }
+  // Si es Date (creado localmente), usar hora local
+  return dayjs(date).format("YYYY-MM-DD");
 }
