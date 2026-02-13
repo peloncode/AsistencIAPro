@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { router, Stack, useLocalSearchParams } from "expo-router";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { handleApiError } from "@/utils/handleApiError";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -39,6 +39,7 @@ function FacialAttendance() {
   const [studentsAssist, setStudentsAssist] = useState<StudentAttendance[]>([]);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["15%", "60%", "85%"], []);
+  const queryClient = useQueryClient();
 
   const todayDate = formatDateForApi(new Date());
 
@@ -97,6 +98,8 @@ function FacialAttendance() {
       }
 
       const studentName = `${estudiante.nombres} ${estudiante.apellidos}`;
+
+      queryClient.invalidateQueries({ queryKey: ["reports", id] });
 
       Alert.alert(
         "¡Identificado!",
